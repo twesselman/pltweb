@@ -1,20 +1,22 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.1.2",
-  "description": "A sample Node.js app using Express 4",
+  "name": "pltweb",
+  "version": "0.1.1",
+  "description": "pltweb service",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "~4.9.x"
+    "express": "~4.9.x",
+    "mongodb": "~1.4.17",
+    "jade": "~1.7.0"
   },
   "engines": {
     "node": "0.10.x"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/twesselman/pltweb.git"
   },
   "keywords": [
     "node",
@@ -23,3 +25,6 @@
   ],
   "license": "MIT"
 }
+
+
+ 
