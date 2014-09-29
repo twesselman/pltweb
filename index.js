@@ -94,6 +94,7 @@ swagger.configureSwaggerPaths('', 'api-docs', '');
 
 // Configure the API domain
 var domain = process.env.ROOT_URI;
+console.log(domain);
 if ((typeof(domain) === 'undefined') || (domain === null) || (domain.length() <1)) {
   domain = process.env.C9_HOSTNAME;
 }
