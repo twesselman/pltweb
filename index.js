@@ -103,7 +103,8 @@ var port = app.get('port');
 
 // Set and display the application URL
 //var applicationUrl = 'https://' + domain + ':' + port;
-var applicationUrl = 'https://' + domain;
+//var applicationUrl = 'https://' + domain;
+var applicationUrl = domain;
 
 console.log('Plantronics API running on ' + applicationUrl);
  
