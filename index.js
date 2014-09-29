@@ -1,13 +1,12 @@
 var express = require("express")
     , swagger = require("swagger-node-express")
     , path = require('path')
-    , argv = require('minimist')(process.argv.slice(2))
     , test = require("./models/test")
     , models = require("./models/models")
     , app = express();
 
-app.set('port', (process.env.PORT || 5000))
-app.use(express.static(__dirname + '/public'))
+app.set('port', (process.env.PORT || 5000));
+app.use(express.static(__dirname + '/public'));
 
 app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/lib', express.static(path.join(__dirname, 'swagger-ui/lib')));
@@ -87,30 +86,35 @@ tom.save(function(err, tom) {
 
 app.get('/', function(request, response) {
 //    response.send('nothing');
-    response.sendfile(__dirname + '/swagger-ui/index.html')
-})
+    response.sendFile(__dirname + '/swagger-ui/index.html');
+});
 
 // Set api-doc path
 swagger.configureSwaggerPaths('', 'api-docs', '');
 
 // Configure the API domain
-var domain = argv.domain;
-var port = app.get('port')
+var domain = process.env.ROOT_URI;
+if ((typeof(domain) === 'undefined') || (domain === null) || (domain.length() <1)) {
+  domain = process.env.C9_HOSTNAME;
+}
 
-console.log('Domain: ' + domain);
+var port = app.get('port');
 
-/// is that required???????
+//console.log(process.env);
+
+/// is the above required???????
 
 // Set and display the application URL
-var applicationUrl = 'http://' + domain + ':' + port;
+//var applicationUrl = 'https://' + domain + ':' + port;
+var applicationUrl = 'https://' + domain;
 
-console.log('snapJob API running on ' + applicationUrl);
+console.log('Plantronics API running on ' + applicationUrl);
  
 //swagger.configure(applicationUrl, '1.0.0');
 
 //*** fix this
-
-swagger.configure('https://pltweb-c9-twesselman.c9.io', '1.0.0');
+swagger.configure(applicationUrl, '1.0.0');
+//swagger.configure('https://pltweb-c9-twesselman.c9.io', '1.0.0');
 
 
 
