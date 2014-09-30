@@ -2,6 +2,7 @@ var express = require("express")
     , swagger = require("swagger-node-express")
     , path = require('path')
     , test = require("./models/test")
+    , resources = require("./models/resources")
     , models = require("./models/models")
     , app = express();
 
@@ -20,6 +21,10 @@ swagger.setAppHandler(app);
 swagger.addModels(models)
     .addGet(test.dummyTestMethod);
  
+
+swagger.addGet(resources.findUserById);
+swagger.addDelete(resources.deleteUser);
+
 // set api info
 swagger.setApiInfo({
     title: "Plantronics Management API",
@@ -30,12 +35,11 @@ swagger.setApiInfo({
     licenseUrl: ""
 });
 
-
+/*
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://twesselman:mongouser@ds039850.mongolab.com:39850/heroku_app30126243';
 
-/*
 var mongo = require('mongodb');
 
 mongo.Db.connect(mongoUri, function (err, db) {
@@ -46,7 +50,6 @@ mongo.Db.connect(mongoUri, function (err, db) {
     });
   });
 });
-*/
 
 var mongoose = require('mongoose');
 
@@ -83,41 +86,26 @@ tom.save(function(err, tom) {
   if (err) return console.error(err);
   console.dir(tom);
 });
+*/
 
 app.get('/', function(request, response) {
 //    response.send('nothing');
     response.sendFile(__dirname + '/swagger-ui/index.html');
 });
 
+
+
 // Set api-doc path
 swagger.configureSwaggerPaths('', 'api-docs', '');
 
 // Configure the API domain
-var domain = process.env.ROOT_URI || process.env.C9_HOSTNAME;
-
 var port = app.get('port');
-
-//console.log(process.env);
-
-/// is the above required???????
-
-// Set and display the application URL
-//var applicationUrl = 'https://' + domain + ':' + port;
-//var applicationUrl = 'https://' + domain;
-var applicationUrl = domain;
+var applicationUrl = process.env.ROOT_URI || process.env.C9_HOSTNAME;
 
 console.log('Plantronics API running on ' + applicationUrl);
- 
-//swagger.configure(applicationUrl, '1.0.0');
 
-//*** fix this
 swagger.configure(applicationUrl, '1.0.0');
-//swagger.configure('https://pltweb-c9-twesselman.c9.io', '1.0.0');
-
-
-
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
 })
-
