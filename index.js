@@ -1,41 +1,11 @@
 var express = require("express")
-    , swagger = require("swagger-node-express")
     , path = require('path')
-    , test = require("./models/test")
-    , resources = require("./models/resources")
-    , models = require("./models/models")
     , app = express();
 
 app.set('port', (process.env.PORT || 5000));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/swagger-ui'));
 
-app.use('/js', express.static(path.join(__dirname, 'js')));
-app.use('/lib', express.static(path.join(__dirname, 'swagger-ui/lib')));
-app.use('/css', express.static(path.join(__dirname, 'swagger-ui/css')));
-app.use('/images', express.static(path.join(__dirname, 'swagger-ui/images')));
 
-// Couple the application to the Swagger module.
-swagger.setAppHandler(app);
-
-// Adding models and methods to our RESTFul service
-swagger.addModels(models)
-    .addGet(test.dummyTestMethod);
- 
-
-swagger.addGet(resources.findUserById);
-swagger.addDelete(resources.deleteUser);
-
-// set api info
-swagger.setApiInfo({
-    title: "Plantronics Management API",
-    description: "API to manage Plantronics devices",
-    termsOfServiceUrl: "",
-    contact: "tom.wesselman@plantronics.com",
-    license: "",
-    licenseUrl: ""
-});
-
-/*
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://twesselman:mongouser@ds039850.mongolab.com:39850/heroku_app30126243';
@@ -86,25 +56,16 @@ tom.save(function(err, tom) {
   if (err) return console.error(err);
   console.dir(tom);
 });
-*/
 
-app.get('/', function(request, response) {
-//    response.send('nothing');
-    response.sendFile(__dirname + '/swagger-ui/index.html');
+app.get('/test', function(request, response) {
+    response.send('nothing');
 });
-
-
-
-// Set api-doc path
-swagger.configureSwaggerPaths('', 'api-docs', '');
 
 // Configure the API domain
 var port = app.get('port');
 var applicationUrl = process.env.ROOT_URI || process.env.C9_HOSTNAME;
 
 console.log('Plantronics API running on ' + applicationUrl);
-
-swagger.configure(applicationUrl, '1.0.0');
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
